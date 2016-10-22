@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private TextView tv1, tv2, tv3;
+    private MyAsyncTask mytask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +32,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void test2(View v){
-        MyAsyncTask mytask = new MyAsyncTask();
+        mytask = new MyAsyncTask();
         mytask.execute("A","B","C","D");
         Log.v("brad", "test2()");
+    }
+    public void test3(View v){
+        if (mytask != null){
+            mytask.cancel(true);
+        }
     }
 
     // AsyncTask
     private class MyAsyncTask
-            extends AsyncTask<String,String,Void>{
+            extends AsyncTask<String,String,String>{
         int i;
 
         @Override
@@ -47,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
             Log.v("brad","onPreExecute");
         }
         @Override
-        protected Void doInBackground(String... names) {
+        protected String doInBackground(String... names) {
+            boolean isFinish = true;
             for (String name : names){
                 Log.v("brad", name);
                 publishProgress(name + i, name + i*10, name + i*100);
@@ -55,10 +62,12 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Log.v("brad", "debug here");
+                    isFinish = false;
+                    break;
                 }
             }
-            return null;
+            return isFinish?"OK":"Cancel";
         }
         @Override
         protected void onProgressUpdate(String... values) {
@@ -69,14 +78,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Log.v("brad","onPostExecute");
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Log.v("brad","onPostExecute:" + result);
         }
         @Override
-        protected void onCancelled(Void aVoid) {
-            super.onCancelled(aVoid);
-            Log.v("brad","onCancelled");
+        protected void onCancelled(String result) {
+            super.onCancelled(result);
+            Log.v("brad","onCancelled:" + result);
         }
 
     }
