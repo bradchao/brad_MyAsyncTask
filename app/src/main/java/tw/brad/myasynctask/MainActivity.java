@@ -5,13 +5,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+    private TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tv = (TextView)findViewById(R.id.tv);
+
     }
 
     public void test1(View v){
@@ -26,11 +31,13 @@ public class MainActivity extends AppCompatActivity {
     public void test2(View v){
         MyAsyncTask mytask = new MyAsyncTask();
         mytask.execute("A","B","C","D");
+        Log.v("brad", "test2()");
     }
 
     // AsyncTask
     private class MyAsyncTask
             extends AsyncTask<String,Void,Void>{
+        int i;
 
         @Override
         protected void onPreExecute() {
@@ -41,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(String... names) {
             for (String name : names){
                 Log.v("brad", name);
+                publishProgress();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             return null;
         }
@@ -48,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
             Log.v("brad","onProgressUpdate");
+            tv.setText("i = " + i++);
         }
 
         @Override
