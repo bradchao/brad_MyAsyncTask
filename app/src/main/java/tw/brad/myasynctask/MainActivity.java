@@ -50,10 +50,18 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Log.v("brad","onPreExecute");
+            tv1.setText("Go");
+
         }
         @Override
         protected String doInBackground(String... names) {
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException e) {
+            }
+
+
+
 //            boolean isFinish = true;
 //            for (String name : names){
 //                Log.v("brad", name);
@@ -97,11 +105,13 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             Log.v("brad","onPostExecute:" + result);
+            tv1.setText(result);
         }
         @Override
         protected void onCancelled(String result) {
             super.onCancelled(result);
             Log.v("brad","onCancelled:" + result);
+            tv1.setText(result);
         }
 
     }
