@@ -42,6 +42,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void test4(View v){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                tv1.setText("OK");
+            }
+        });
+    }
+
     // AsyncTask
     private class MyAsyncTask
             extends AsyncTask<String,String,String>{
