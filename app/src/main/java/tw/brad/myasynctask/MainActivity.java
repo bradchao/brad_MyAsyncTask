@@ -23,9 +23,14 @@ public class MainActivity extends AppCompatActivity {
         }.start();
     }
 
+    public void test2(View v){
+        MyAsyncTask mytask = new MyAsyncTask();
+        mytask.execute("A","B","C","D");
+    }
+
     // AsyncTask
     private class MyAsyncTask
-            extends AsyncTask<Void,Void,Void>{
+            extends AsyncTask<String,Void,Void>{
 
         @Override
         protected void onPreExecute() {
@@ -33,8 +38,10 @@ public class MainActivity extends AppCompatActivity {
             Log.v("brad","onPreExecute");
         }
         @Override
-        protected Void doInBackground(Void... params) {
-            Log.v("brad","doInBackground");
+        protected Void doInBackground(String... names) {
+            for (String name : names){
+                Log.v("brad", name);
+            }
             return null;
         }
         @Override
