@@ -8,14 +8,16 @@ import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView tv;
+    private TextView tv1, tv2, tv3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tv = (TextView)findViewById(R.id.tv);
+        tv1 = (TextView)findViewById(R.id.tv1);
+        tv2 = (TextView)findViewById(R.id.tv2);
+        tv3 = (TextView)findViewById(R.id.tv3);
 
     }
 
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     // AsyncTask
     private class MyAsyncTask
-            extends AsyncTask<String,Void,Void>{
+            extends AsyncTask<String,String,Void>{
         int i;
 
         @Override
@@ -48,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(String... names) {
             for (String name : names){
                 Log.v("brad", name);
-                publishProgress();
+                publishProgress(name + i, name + i*10, name + i*100);
+                i++;
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -58,10 +61,11 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
         @Override
-        protected void onProgressUpdate(Void... values) {
+        protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
-            Log.v("brad","onProgressUpdate");
-            tv.setText("i = " + i++);
+            tv1.setText(values[0]);
+            tv2.setText(values[1]);
+            tv3.setText(values[2]);
         }
 
         @Override
