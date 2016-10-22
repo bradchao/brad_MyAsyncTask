@@ -54,20 +54,36 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected String doInBackground(String... names) {
-            boolean isFinish = true;
+//            boolean isFinish = true;
+//            for (String name : names){
+//                Log.v("brad", name);
+//                publishProgress(name + i, name + i*10, name + i*100);
+//                i++;
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    Log.v("brad", "debug here");
+//                    isFinish = false;
+//                    break;
+//                }
+//            }
+//            return isFinish?"OK":"Cancel";
+
             for (String name : names){
+                if (isCancelled()){
+                    return "Cancel";
+                }
                 Log.v("brad", name);
                 publishProgress(name + i, name + i*10, name + i*100);
                 i++;
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    Log.v("brad", "debug here");
-                    isFinish = false;
-                    break;
                 }
             }
-            return isFinish?"OK":"Cancel";
+            return "OK";
+
+
         }
         @Override
         protected void onProgressUpdate(String... values) {
